@@ -13,7 +13,7 @@ The goals / steps of this project are the following:
 [//]: # (Image References)
 
 [image1]: ./examples/lenet.png "LeNeT Model"
-[image2]: ./examples/placeholder.png "Grayscaling"
+[image2]: ./examples/cropped.png "Cropped"
 [image3]: ./examples/placeholder_small.png "Recovery Image"
 [image4]: ./examples/placeholder_small.png "Recovery Image"
 [image5]: ./examples/placeholder_small.png "Recovery Image"
@@ -36,6 +36,10 @@ The overall strategy for deriving a model architecture was to start from a simpl
 I thought this model might be appropriate because convolutional neural networks are pretty good for image recognition and classification. So I've started from one of the simpliest well-known architectures as a base.
 
 Also as a simple dataset for training - I've collected two laps of data for the firest track. My goal for now was not to fight overfiting but make sure that model able to learn the track. 
+
+Additinaly, I've normalized model imputs to fit values to the range [-0.5, 0.5] which is proven to work a lot beteer than initial color range [0, 255]. Also cropped image data above the horizont (50 pixels from top) and car image (20 pixel from bottom). So final image looks like: 
+
+![alt text][image2]
 
 I split my image and steering angle data into a training and validation set. I found that my first model had a pretty comparable validation and training loss.  However, the driving behavior was auful. Car mostly go stright forward and leaves the track immidiatly.
 
