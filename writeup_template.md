@@ -99,19 +99,19 @@ The final model architecture (model.py lines 18-24) consisted of a convolution n
 | Layer         		|     Description	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | Input         		| 160x320x3 RGB image   							| 
-| Cropping 90x320     	| Output: 70, 320, 3	|
-| Normalization     	| Normilize values to fit [-0.5, 0.5] range	|
-| Convolution 5x5     	| 2x2 stride, same padding, outputs 32x32x24 	|
+| Cropping 90x320     	| Outputs: 90x320x3	|
+| Normalization     	| Normilize values to fit [-0.5, 0.5] range,  outputs: 90x320x3	|
+| Convolution 5x5     	| 2x2 stride, same padding, outputs 43x158x24 	|
 | RELU					|												|
-| Convolution 5x5     	| 2x2 stride, same padding, outputs 16x16x36 	|
+| Convolution 5x5     	| 2x2 stride, same padding, outputs 20x77x36 	|
 | RELU					|												|
-| Convolution 5x5     	| 2x2 stride, same padding, outputs 8x8x48 	|
+| Convolution 5x5     	| 2x2 stride, same padding, outputs 8x37x48 	|
 | RELU					|												|
-| Convolution 3x3     	| 1x1 stride, same padding, outputs 8x8x64 	|
+| Convolution 3x3     	| 1x1 stride, same padding, outputs 8x37x64 	|
 | RELU					|												|
-| Convolution 3x3     	| 1x1 stride, same padding, outputs 8x8x64 	|
+| Convolution 3x3     	| 1x1 stride, same padding, outputs 8x47x64 	|
 | RELU					|												|
-| Fully connected		| 2048x100        									|
+| Fully connected		| 2256x100        									|
 | Dropout | keep_prob = 0.8        									|
 | Fully connected		| 100x50        									|
 | Dropout | keep_prob = 0.8        									|
