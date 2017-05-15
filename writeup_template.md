@@ -15,7 +15,7 @@ The goals / steps of this project are the following:
 [image1]: ./examples/lenet.png "LeNeT Model"
 [image2]: ./examples/cropped.png "Cropped"
 [image3]: ./examples/nvidia.png "NVIDIA architecture"
-[image4]: ./examples/placeholder_small.png "Recovery Image"
+[image4]: ./examples/hist1.png "Angles histogram"
 [image5]: ./examples/placeholder_small.png "Recovery Image"
 [image6]: ./examples/placeholder_small.png "Normal Image"
 [image7]: ./examples/placeholder_small.png "Flipped Image"
@@ -51,9 +51,32 @@ Finnaly, I've changed model to the NVIDIA model. According to their paper: https
 
 The result was terrible. Car hardly able to drive through the first simple turn and left the road..  As this model was proved performer for the self-driving car - I realised that I need to seek issue somehwere else keeping model fixed. 
 
+#### Data processing and augumentation
+
+So, obviously, I had to collect and pre-process training data in a right way to achive good results. I've tried different data pre-processing techniques such as:
+
+* Color space convertion
+* Noise reduction
+* Edge detection - to emphsize road borders.
+* Tried regions of interests using different forms and shapes.
+
+Finaly - I've realzied that the main issue of the model is that it is biased to the small angles and almost always left the road heading stright forward:
+
+So I've build the histogram to visualize the colelcted data:
+
+![alt text][image4]
+
+So, now it is clear that model is biased to to the zero angles.  Also in the NVIDIA paper they mentioned that they had to add a lot of curved truns data as model is biased to the straight roads to make it works correctly.
+
+So, I've just tried simple solution: if np.abs(angle) < 0.1 I am not adding this data to the model. This worked as a charm - car was able to complete half of the road succsesfuly.
+
+
+
 The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
 
 At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
+
+
 
 ####2. Final Model Architecture
 
