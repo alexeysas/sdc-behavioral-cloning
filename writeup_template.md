@@ -128,13 +128,15 @@ To capture good driving behavior, I first recorded two laps on track one using c
 
 ![alt text][image2]
 
+Also I've tryed to 
+
 I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
 
 ![alt text][image3]
 ![alt text][image4]
 ![alt text][image5]
 
-Then I repeated this process on track two in order to get more data points.
+Also I've recorded two laps of data using second track driving to prevent overfeating for the first track (it idealy drives over first track after training on three laps data collected from first track only, but it is clearly overfitting as it is not able to drive a single turn for the second truck) and in attempt to eveluate model .
 
 To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
 
