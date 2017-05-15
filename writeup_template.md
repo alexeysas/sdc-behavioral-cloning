@@ -12,7 +12,7 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/placeholder.png "Model Visualization"
+[image1]: ./examples/lenet.png "LeNeT Model"
 [image2]: ./examples/placeholder.png "Grayscaling"
 [image3]: ./examples/placeholder_small.png "Recovery Image"
 [image4]: ./examples/placeholder_small.png "Recovery Image"
@@ -25,43 +25,25 @@ The goals / steps of this project are the following:
 
 The model.py file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
 
-### Model Architecture and Training Strategy
+## Model Architecture and Training Strategy
 
-####1. An appropriate model architecture has been employed
+### Solution Design Approach
 
-My model consists of a convolution neural network with 3x3 filter sizes and depths between 32 and 128 (model.py lines 18-24) 
+The overall strategy for deriving a model architecture was to start from a simple convolutional network similar to LeNeT arcjirecture: 
 
-The model includes RELU layers to introduce nonlinearity (code line 20), and the data is normalized in the model using a Keras lambda layer (code line 18). 
+![alt text][image1]
 
-####2. Attempts to reduce overfitting in the model
+I thought this model might be appropriate because convolutional neural networks are pretty good for image recognition and classification. So I've started from one of the simpliest well-known architectures as a base.
 
-The model contains dropout layers in order to reduce overfitting (model.py lines 21). 
+Also as a simple dataset for training - I've collected two laps of data for the firest track. My goal for now was not to fight overfiting but make sure that model able to learn the track. 
 
-The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+I split my image and steering angle data into a training and validation set. I found that my first model had a pretty comparable validation and training loss.  However, the driving behavior was auful. Car mostly go stright forward and leaves the track immidiatly.
 
-####3. Model parameter tuning
+My initial idea was to improve model by using more complex structure. I've tried adding more convolutional levels, pooling layers, non-linearities, playing with fully collected layers - hardly got any better results. 
 
-The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 25).
+Finnaly, I've changed model to the NVIDIA model. According to their paper: https://arxiv.org/pdf/1604.07316v1.pdf this model was selected as top perfomer among all other models they tried for the self-driving car and worked well for the real tests. 
 
-####4. Appropriate training data
-
-Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road ... 
-
-For details about how I created the training data, see the next section. 
-
-###Model Architecture and Training Strategy
-
-####1. Solution Design Approach
-
-The overall strategy for deriving a model architecture was to ...
-
-My first step was to use a convolution neural network model similar to the ... I thought this model might be appropriate because ...
-
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
-
-To combat the overfitting, I modified the model so that ...
-
-Then I ... 
+The result was terrible. Car hardly able to drive through the first simple turn and left the road..  As this model was proved performer for the self-driving car - I realised that I need to seek issue somehwere else keeping model fixed. 
 
 The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
 
