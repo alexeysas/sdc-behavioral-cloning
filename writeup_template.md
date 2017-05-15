@@ -94,7 +94,29 @@ At the end of the process, the vehicle is able to drive autonomously around the 
 
 ####2. Final Model Architecture
 
-The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes ...
+The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes 
+
+| Layer         		|     Description	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| Input         		| 160x320x3 RGB image   							| 
+| Cropping 90x320     	| Output: 70, 320, 3	|
+| Normalization     	| Normilize values to fit [-0.5, 0.5] range	|
+| Convolution 5x5     	| 2x2 stride, same padding, outputs 32x32x24 	|
+| RELU					|												|
+| Convolution 5x5     	| 2x2 stride, same padding, outputs 16x16x36 	|
+| RELU					|												|
+| Convolution 5x5     	| 2x2 stride, same padding, outputs 8x8x48 	|
+| RELU					|												|
+| Convolution 3x3     	| 1x1 stride, same padding, outputs 8x8x64 	|
+| RELU					|												|
+| Convolution 3x3     	| 1x1 stride, same padding, outputs 8x8x64 	|
+| RELU					|												|
+| Fully connected		| 2048x100        									|
+| Dropout | keep_prob = 0.8        									|
+| Fully connected		| 100x50        									|
+| Dropout | keep_prob = 0.8        									|
+| Fully connected		| 50x10        									|
+| Fully connected		| 10x1        									|
 
 Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
 
