@@ -7,8 +7,6 @@ The goals / steps of this project are the following:
 * Build, a convolution neural network in Keras that predicts steering angles from images
 * Train and validate the model with a training and validation set
 * Test that the model successfully drives around track one without leaving the road
-* Summarize the results with a written report
-
 
 [//]: # (Image References)
 
@@ -19,11 +17,6 @@ The goals / steps of this project are the following:
 [image5]: ./examples/placeholder_small.png "Recovery Image"
 [image6]: ./examples/placeholder_small.png "Normal Image"
 [image7]: ./examples/placeholder_small.png "Flipped Image"
-
-
-####3. Submission code is usable and readable
-
-The model.py file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
 
 ## Model Architecture and Training Strategy
 
@@ -70,15 +63,21 @@ So, now it is clear that model is biased to to the zero angles.  Also in the NVI
 
 So, I've just tried simple solution: if np.abs(angle) < 0.1 I am not adding this data to the model. This worked as a charm - car was able to complete half of the road succsesfuly.
 
+Additionaly, I tried different augumentation techniques trying to improve deiving behaviour:
+* Added flipped images with reversed angle
+* Trying to add images from left and right camera with corresponsing angle adjustement (not working well for me though with any   parameters - so removed this in final model, it looks like to use this technique correctly - more complex algorithm is required)
 
+At the end  vehicle is able to drive autonomously around the track without leaving the road.
 
-The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
+#### Data colection and training stategy 
 
-At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
+The next goal was to make model drive autonomusly on the second track. Model is clearly overfitting for the first truck as car dirves out of the road as soon as simulation started for the second track. 
 
+So to prevent overfitting and train model to drive on the second track. I've collected two laps of data for the second track and continue model tuning. 
 
+Additionaly I've collected additional recovery data for the places where model fall out of the road  
 
-####2. Final Model Architecture
+#### Final Model Architecture
 
 The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes 
 
@@ -104,9 +103,19 @@ The final model architecture (model.py lines 18-24) consisted of a convolution n
 | Fully connected		| 50x10        									|
 | Fully connected		| 10x1        									|
 
-Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
+Basicly I've used sligtly modified NVIDIA network by adding dropout layers to prevent overfitting.
 
-![alt text][image1]
+#### Training Process
+When data is collected - I've used MSE as accuracy metric and 'Adam' optimizer - so I dont have to tune learning rate. However, I have addtional parameters to tune:
+
+* ignore_threshold - angles less than this value are ignored with probability: remove_probability - also additional parameter to tune.
+* number of epoch
+* Either to use left and right camera or not.
+
+
+
+
+
 
 ####3. Creation of the Training Set & Training Process
 
