@@ -14,7 +14,7 @@ The goals / steps of this project are the following:
 
 [image1]: ./examples/lenet.png "LeNeT Model"
 [image2]: ./examples/cropped.png "Cropped"
-[image3]: ./examples/placeholder_small.png "Recovery Image"
+[image3]: ./examples/nvidia.png "NVIDIA architecture"
 [image4]: ./examples/placeholder_small.png "Recovery Image"
 [image5]: ./examples/placeholder_small.png "Recovery Image"
 [image6]: ./examples/placeholder_small.png "Normal Image"
@@ -46,6 +46,8 @@ I split my image and steering angle data into a training and validation set. I f
 My initial idea was to improve model by using more complex structure. I've tried adding more convolutional levels, pooling layers, non-linearities, playing with fully collected layers - hardly got any better results. 
 
 Finnaly, I've changed model to the NVIDIA model. According to their paper: https://arxiv.org/pdf/1604.07316v1.pdf this model was selected as top perfomer among all other models they tried for the self-driving car and worked well for the real tests. 
+
+![alt text][image3]
 
 The result was terrible. Car hardly able to drive through the first simple turn and left the road..  As this model was proved performer for the self-driving car - I realised that I need to seek issue somehwere else keeping model fixed. 
 
