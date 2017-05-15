@@ -14,8 +14,8 @@ The goals / steps of this project are the following:
 [image2]: ./examples/cropped.png "Cropped"
 [image3]: ./examples/nvidia.png "NVIDIA architecture"
 [image4]: ./examples/hist1.png "Angles histogram"
-[image5]: ./examples/placeholder_small.png "Recovery Image"
-[image6]: ./examples/placeholder_small.png "Normal Image"
+[image5]: ./examples/original.png "Original Image"
+[image6]: ./examples/flipped.png "Flipped Image"
 [image7]: ./examples/placeholder_small.png "Flipped Image"
 
 ## Model Architecture and Training Strategy
@@ -34,7 +34,7 @@ Additinaly, I've normalized model imputs to fit values to the range [-0.5, 0.5] 
 
 ![alt text][image2]
 
-I split my image and steering angle data into a training and validation set. I found that my first model had a pretty comparable validation and training loss.  However, the driving behavior was auful. Car mostly go stright forward and leaves the track immidiatly.
+I split my image and steering angle data into a training and validation set. I found that my first model had a comparable validation and training loss.  However, the driving behavior was auful. Car mostly go stright forward and leaves the track immidiatly.
 
 My initial idea was to improve model by using more complex structure. I've tried adding more convolutional levels, pooling layers, non-linearities, playing with fully collected layers - hardly got any better results. 
 
@@ -61,21 +61,32 @@ So I've build the histogram to visualize the colelcted data:
 
 So, now it is clear that model is biased to to the zero angles.  Also in the NVIDIA paper they mentioned that they had to add a lot of curved truns data as model is biased to the straight roads to make it works correctly.
 
-So, I've just tried simple solution: if np.abs(angle) < 0.1 I am not adding this data to the model. This worked as a charm - car was able to complete half of the road succsesfuly.
+So, I've just tried simple solution: if np.abs(angle) < 0.1 then I am not adding this data to the model. This worked as a charm - car was able to complete half of the road succsesfuly.
 
-Additionaly, I tried different augumentation techniques trying to improve deiving behaviour:
+Additionaly, I tried different augumentation techniques to achive some improvements in the driving behaviour:
 * Added flipped images with reversed angle
+
+Original image:
+
+![alt text][image5]
+
+Flipped image:
+
+![alt text][image6]
+
 * Trying to add images from left and right camera with corresponsing angle adjustement (not working well for me though with any   parameters - so removed this in final model, it looks like to use this technique correctly - more complex algorithm is required)
 
 At the end  vehicle is able to drive autonomously around the track without leaving the road.
 
 #### Data colection and training stategy 
 
-The next goal was to make model drive autonomusly on the second track. Model is clearly overfitting for the first truck as car dirves out of the road as soon as simulation started for the second track. 
+The next goal was to make model drive autonomusly on the second track. Model is clearly overfitting for the first truck as car drives out of the road as soon as simulation started for the second track. 
 
-So to prevent overfitting and train model to drive on the second track. I've collected two laps of data for the second track and continue model tuning. 
+So to prevent overfitting and train model to drive on the second track. I've collected two laps of data for the second track. Model 
 
 Additionaly I've collected additional recovery data for the places where model fall out of the road  
+I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
+
 
 #### Final Model Architecture
 
@@ -125,7 +136,7 @@ To capture good driving behavior, I first recorded two laps on track one using c
 
 Also I've tryed to 
 
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
+
 
 ![alt text][image3]
 ![alt text][image4]
