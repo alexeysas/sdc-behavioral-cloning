@@ -20,7 +20,7 @@ The goal of this project is to:
 
 Technicaly we need to predict steering angle based on the camera images captured from the vehicle. Actualy vehicle has three cameras which appeared to be extremly useful addition as the result.
 
-Images samples captured wby vehicle cameras:
+Images samples captured by vehicle cameras:
 
 ![alt text][image8]
 
