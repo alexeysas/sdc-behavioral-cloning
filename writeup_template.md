@@ -7,23 +7,16 @@ The goals / steps of this project are the following:
 * Build, a convolution neural network in Keras that predicts steering angles from images
 * Train and validate the model with a training and validation set
 * Test that the model successfully drives around track one without leaving the road
-* Summarize the results with a written report
-
 
 [//]: # (Image References)
 
 [image1]: ./examples/lenet.png "LeNeT Model"
 [image2]: ./examples/cropped.png "Cropped"
-[image3]: ./examples/placeholder_small.png "Recovery Image"
-[image4]: ./examples/placeholder_small.png "Recovery Image"
-[image5]: ./examples/placeholder_small.png "Recovery Image"
-[image6]: ./examples/placeholder_small.png "Normal Image"
+[image3]: ./examples/nvidia.png "NVIDIA architecture"
+[image4]: ./examples/hist1.png "Angles histogram"
+[image5]: ./examples/original.png "Original Image"
+[image6]: ./examples/flipped.png "Flipped Image"
 [image7]: ./examples/placeholder_small.png "Flipped Image"
-
-
-####3. Submission code is usable and readable
-
-The model.py file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
 
 ## Model Architecture and Training Strategy
 
@@ -35,25 +28,68 @@ The overall strategy for deriving a model architecture was to start from a simpl
 
 I thought this model might be appropriate because convolutional neural networks are pretty good for image recognition and classification. So I've started from one of the simpliest well-known architectures as a base.
 
-Also as a simple dataset for training - I've collected two laps of data for the firest track. My goal for now was not to fight overfiting but make sure that model able to learn the track. 
+Also as a simple dataset for training - I've collected two laps of data for the first track. My goal for now was not to fight over-fitting but make sure that model able to learn the track. 
 
-Additinaly, I've normalized model imputs to fit values to the range [-0.5, 0.5] which is proven to work a lot beteer than initial color range [0, 255]. Also cropped image data above the horizont (50 pixels from top) and car image (20 pixel from bottom). So final image looks like: 
+Additionally, I've normalized model inputs to fit values to the range [-0.5, 0.5] which is proven to work a lot better than initial color range [0, 255]. Also cropped image data above the horizon (50 pixels from top) and car image (20 pixel from bottom). So final image looks like: 
 
 ![alt text][image2]
 
-I split my image and steering angle data into a training and validation set. I found that my first model had a pretty comparable validation and training loss.  However, the driving behavior was auful. Car mostly go stright forward and leaves the track immidiatly.
+I split my image and steering angle data into a training and validation set. I found that my first model had a comparable validation and training loss.  However, the driving behavior was awful. Car mostly go straight forward and leaves the track immediately.
 
-My initial idea was to improve model by using more complex structure. I've tried adding more convolutional levels, pooling layers, non-linearities, playing with fully collected layers - hardly got any better results. 
+My initial idea was to improve model by using more complex structure. I've tried adding more convolutional levels, pooling layers, non-linearity, playing with fully collected layers - hardly got any better results. 
 
-Finnaly, I've changed model to the NVIDIA model. According to their paper: https://arxiv.org/pdf/1604.07316v1.pdf this model was selected as top perfomer among all other models they tried for the self-driving car and worked well for the real tests. 
+Finally, I've changed model to the NVIDIA model. According to their paper: https://arxiv.org/pdf/1604.07316v1.pdf this model was selected as top performer among all other models they tried for the self-driving car and worked well for the real tests.
 
-The result was terrible. Car hardly able to drive through the first simple turn and left the road..  As this model was proved performer for the self-driving car - I realised that I need to seek issue somehwere else keeping model fixed. 
+![alt text][image3]
 
-The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
+The result was terrible. Car hardly able to drive through the first simple turn and left the road...  As this model was proved performer for the self-driving car - I realized that I need to seek issue somewhere else keeping model fixed. 
 
-At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
+#### Data processing and augumentation
 
-####2. Final Model Architecture
+So, obviously, I had to collect and pre-process training data in a right way to achieve good results. I've tried different data pre-processing techniques such as:
+
+* Color space convertion
+* Noise reduction
+* Edge detection - to emphsize road borders.
+* Tried regions of interests using different forms and shapes.
+
+Nothing worked well to improve model behavior. Final - I've realized that the main issue of the model is that it is biased to the small angles and almost always left the road heading straight forward:
+
+So I've build the histogram to visualize the collected data:
+
+![alt text][image4]
+
+So, now it is clear that model is biased to to the zero angles.  Also in the NVIDIA paper they mentioned that they had to add a lot of curved turns data as model is biased to the straight roads to make it works correctly.
+
+So, I've just tried simple solution: if np.abs(angle) < 0.1 then I am not adding this data to the model. This worked as a charm - car was able to complete half of the road successfully.
+
+Additionaly, I tried different augmentation techniques to achieve some improvements in the driving behavior:
+* Added flipped images with reversed angle
+
+
+Original image:
+
+![alt text][image5]
+
+Flipped image:
+
+![alt text][image6]
+
+* Trying to add images from left and right camera with corresponding angle adjustment (not working well for me though with any   parameters - so removed this in final model, it looks like to use this technique correctly - more complex algorithm is required)
+
+At the end  vehicle is able to drive autonomously around the track without leaving the road.
+
+#### Data colection and training stategy 
+
+The next goal was to make model drive autonomously on the second track. Model is clearly over-fitting for the first truck as car drives out of the road as soon as simulation started for the second track. 
+
+So to prevent overfitting and train model to drive on the second track. I've collected two laps of data for the second track. Model 
+
+Additionaly I've collected additional recovery data for the places where model fall out of the road  
+I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
+
+
+#### Final Model Architecture
 
 The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes 
 
@@ -79,9 +115,19 @@ The final model architecture (model.py lines 18-24) consisted of a convolution n
 | Fully connected		| 50x10        									|
 | Fully connected		| 10x1        									|
 
-Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
+Basicly I've used sligtly modified NVIDIA network by adding dropout layers to prevent overfitting.
 
-![alt text][image1]
+#### Training Process
+When data is collected - I've used MSE as accuracy metric and 'Adam' optimizer - so I dont have to tune learning rate. However, I have addtional parameters to tune:
+
+* ignore_threshold - angles less than this value are ignored with probability: remove_probability - also additional parameter to tune.
+* number of epoch
+* Either to use left and right camera or not.
+
+
+
+
+
 
 ####3. Creation of the Training Set & Training Process
 
@@ -91,7 +137,7 @@ To capture good driving behavior, I first recorded two laps on track one using c
 
 Also I've tryed to 
 
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
+
 
 ![alt text][image3]
 ![alt text][image4]
