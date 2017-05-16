@@ -1,12 +1,11 @@
-# **Behavioral Cloning**  
+# **Behavioral Cloning project**  
 
-## **Behavioral Cloning Project**
-
-The goals / steps of this project are the following:
+## Goal
+The goal of this project is to:
 * Use the simulator to collect data of good driving behavior
 * Build, a convolution neural network in Keras that predicts steering angles from images
 * Train and validate the model with a training and validation set
-* Test that the model successfully drives around track one without leaving the road
+* Test that the model successfully drives around track without leaving the road
 
 [//]: # (Image References)
 
@@ -18,15 +17,15 @@ The goals / steps of this project are the following:
 [image6]: ./examples/flipped.png "Flipped Image"
 [image7]: ./examples/recovery.png "Recovery Image"
 
-## Model Architecture and Training Strategy
+Technicaly we need to predict steering angle based on the camera images captured from the vehicle. Actualy vehicle has three cameras which appeared to be extremly useful addition in the result.
 
-### Solution Design Approach
+## Solution Design Approach
 
-The overall strategy for deriving a model architecture was to start from a simple convolutional network similar to LeNeT arcjirecture: 
+The overall strategy to complete the project was to start from a simple convolutional network (for example similar to LeNeT arhitecture: 
 
 ![alt text][image1]
 
-I thought this model might be appropriate because convolutional neural networks are pretty good for image recognition and classification. So I've started from one of the simpliest well-known architectures as a base.
+I think that this model might be appropriate because convolutional neural networks are pretty good for image recognition and classification. In spite of we have regression task So I've started from one of the simpliest well-known architectures as a base.
 
 Also as a simple dataset for training - I've collected two laps of data for the first track. My goal for now was not to fight over-fitting but make sure that model able to learn the track. 
 
