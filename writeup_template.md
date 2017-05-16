@@ -36,7 +36,7 @@ I think that simple LeNeT model might be appropriate because convolutional neura
 
 Also as a simple dataset for training - I've collected two laps of data using first track. My goal for now was not to fight with over fitting but make sure that model able to drive the track in a some way. 
 
-Additionally, I've normalized model inputs to fit values to the range [-0.5, 0.5] which is proven to work a lot better than initial color range [0, 255]. Also cropped image data above the horizon (50 pixels from top), removed the car image (20 pixel from bottom), and cropped 20 pixels from thr left and right side.  So final image looks like: 
+Additionally, I've normalized model inputs to fit values to the range [-0.5, 0.5] which is proven to work a lot better than initial color range [0, 255]. Also cropped image data above the horizon (50 pixels from top), removed the car image (20 pixel from bottom), and cropped 20 pixels from thr left and right side.  So initial and final images looks like: 
 
 ![alt text][image2]
 
