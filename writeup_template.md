@@ -16,7 +16,7 @@ The goals / steps of this project are the following:
 [image4]: ./examples/hist1.png "Angles histogram"
 [image5]: ./examples/original.png "Original Image"
 [image6]: ./examples/flipped.png "Flipped Image"
-[image7]: ./examples/placeholder_small.png "Flipped Image"
+[image7]: ./examples/recovery.png "Recovery Image"
 
 ## Model Architecture and Training Strategy
 
@@ -83,10 +83,14 @@ At the end  vehicle is able to drive autonomously around the track without leavi
 
 The next goal was to make model drive autonomously on the second track. Model is clearly over-fitting for the first truck as car drives out of the road as soon as simulation started for the second track. 
 
-So to prevent overfitting and train model to drive on the second track. I've collected two laps of data for the second track. Model 
+So to prevent overfitting and train model to drive on the second track. I've collected two laps of data for the second track. After training on the new data - model was able to complete first turn for the second track.
 
-Additionaly I've collected additional recovery data for the places where model fall out of the road  
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
+Additionaly I've started collecting recovery data for the places where model fall out of the road during my test runs  
+I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn how to reecover back to the center: 
+
+![alt text][image7]
+![alt text][image8]
+![alt text][image9]
 
 
 #### Final Model Architecture
@@ -124,33 +128,6 @@ When data is collected - I've used MSE as accuracy metric and 'Adam' optimizer -
 * number of epoch
 * Either to use left and right camera or not.
 
-
-
-
-
-
-####3. Creation of the Training Set & Training Process
-
-To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
-
-![alt text][image2]
-
-Also I've tryed to 
-
-
-
-![alt text][image3]
-![alt text][image4]
-![alt text][image5]
-
-Also I've recorded two laps of data using second track driving to prevent overfeating for the first track (it idealy drives over first track after training on three laps data collected from first track only, but it is clearly overfitting as it is not able to drive a single turn for the second truck) and in attempt to eveluate model .
-
-To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
-
-![alt text][image6]
-![alt text][image7]
-
-Etc ....
 
 After the collection process, I had X number of data points. I then preprocessed this data by ...
 
