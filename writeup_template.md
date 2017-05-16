@@ -16,8 +16,9 @@ The goal of this project is to:
 [image5]: ./examples/original.png "Original Image"
 [image6]: ./examples/flipped.png "Flipped Image"
 [image7]: ./examples/recovery.png "Recovery Image"
+[image7]: ./examples/samples.png "Recovery Image"
 
-Technicaly we need to predict steering angle based on the camera images captured from the vehicle. Actualy vehicle has three cameras which appeared to be extremly useful addition in the result.
+Technicaly we need to predict steering angle based on the camera images captured from the vehicle. Actualy vehicle has three cameras which appeared to be extremly useful addition as the result.
 
 ## Solution Design Approach
 
