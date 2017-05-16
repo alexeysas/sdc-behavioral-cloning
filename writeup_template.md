@@ -53,7 +53,7 @@ So, obviously, I had to collect and pre-process training data in a right way to 
 * Edge detection - to emphsize road borders.
 * Tried regions of interests using different forms and shapes.
 
-Nothing worked well to improve model behavior. Final - I've realized that the main issue of the model is that it is biased to the small angles and almost always left the road heading straight forward:
+Nothing worked well to improve model behavior. Finally, I've realized that the main issue of the model is that it is biased to the small angles and almost always left the road heading straight forward:
 
 So I've build the histogram to visualize the collected data:
 
