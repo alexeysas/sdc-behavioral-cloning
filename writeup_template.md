@@ -42,9 +42,11 @@ Additionally, I've normalized model inputs to fit values to the range [-0.5, 0.5
 
 As usual, data was split to training and validation set (20% dedicated to validation) Model had pretty low validation and training loss.  However, the driving behavior was awful. Car mostly go straight forward and leaves the track immediately.
 
-My initial idea was to improve model by using more complex structure. I've tried adding more convolutional levels, pooling layers, non-linearity, playing with fully collected layers - hardly got any better results. 
+Initial idea was to improve model by using more complex layers. I've tried adding more convolutional levels, pooling layers, different non-linearities, playing with fully collected layers and dropouts hardly got any resonable better results. Car was ableto drive a little bit longer.
 
-Finally, I've changed model to the NVIDIA model. According to their paper: https://arxiv.org/pdf/1604.07316v1.pdf this model was selected as top performer among all other models they tried for the self-driving car and worked well for the real tests.
+Finally, I've changed model to the NVIDIA model. According to the paper: https://arxiv.org/pdf/1604.07316v1.pdf this model was selected as a top performer among all other models for self-driving cars and worked well for real tests. So it should be great model for this project as well.
+
+NVIDIA model:
 
 ![alt text][image3]
 
