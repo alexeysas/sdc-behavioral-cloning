@@ -95,7 +95,7 @@ I then recorded the vehicle recovering from the left side and right sides of the
 
 #### Final Model Architecture
 
-The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes 
+The final model architecture (main.py lines 162-179) consisted of a convolution neural network with the following layers and layer sizes 
 
 | Layer         		|     Description	        					| 
 |:---------------------:|:---------------------------------------------:| 
@@ -119,19 +119,26 @@ The final model architecture (model.py lines 18-24) consisted of a convolution n
 | Fully connected		| 50x10        									|
 | Fully connected		| 10x1        									|
 
-Basicly I've used sligtly modified NVIDIA network by adding dropout layers to prevent overfitting.
+Basicly I've used sligtly modified NVIDIA network by adding dropout layers to prevent overfitting. I beleive that reason why NVIDIA dont have drouput layer is becouse they collecteed tons of real data. As we only have two tracks - it can be benefitial for our model.
 
 #### Training Process
-When data is collected - I've used MSE as accuracy metric and 'Adam' optimizer - so I dont have to tune learning rate. However, I have addtional parameters to tune:
+When data is collected - I've used MSE as accuracy metric and 'Adam' optimizer. As I used Adam optimizer instead of SDG I dont have to tune learning rate. However, I have addtional parameters to wwork with instead:
 
 * ignore_threshold - angles less than this value are ignored with probability: remove_probability - also additional parameter to tune.
 * number of epoch
-* Either to use left and right camera or not.
+* Either to use left and right camera images or not.
 
+After the collection process, I and up with X data points with following angles distribution:
 
-After the collection process, I had X number of data points. I then preprocessed this data by ...
+![alt text][image6]
 
+Finally I randomly shuffled the data set and put 0.1% of the data into a validation set.  Although, I was able to fit all my training data in my PCs memory and used in memory training (main.py lines 224-256) as it a way faster to run. I've provide avility to use generator based approach in case I have a lot of data avalible (main.py lines 198-222), however it works a bit slower than in-memory approah.
 
-I finally randomly shuffled the data set and put Y% of the data into a validation set. 
+I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 15 as evidenced by the fact that validation loss stopped decreasing:
 
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
+![alt text][image6]
+
+#### Results
+
+Res
+
