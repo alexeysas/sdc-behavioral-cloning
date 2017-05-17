@@ -85,18 +85,20 @@ Flipped image:
 
 ![alt text][image6]
 
-* Trying to add images from left and right camera with corresponding angle adjustment (not working well for me though with any   parameters - so removed this in final model, it looks like to use this technique correctly - more complex algorithm is required)
-
-At the end  vehicle is able to drive autonomously around the track without leaving the road.
+At the end  vehicle is able to drive autonomously around the track without leaving the road with default speed (9). However, speed increase still caused some issues for driving behaviour. 
 
 #### Data colection and training stategy 
 
-The next goal was to make model drive autonomously on the second track. Model is clearly over-fitting for the first truck as car drives out of the road as soon as simulation started for the second track. 
+So the next goal was to make model drive autonomously with resonable high speed on the first track. Also model is clearly over fitting for the first track as car drives out of the road as soon as simulation started for the second track. 
 
-So to prevent overfitting and train model to drive on the second track. I've collected two laps of data for the second track. After training on the new data - model was able to complete first turn for the second track.
+So to prevent overfitting and train model to drive more solidly. I've collected two laps of data for the second track and additionl data for the first track.  After training on the new data - model was able to complete first turn for the second track.
 
-Additionaly I've started collecting recovery data for the places where model fall out of the road during my test runs  
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn how to reecover back to the center: 
+Realized that model is poorly recovered when it is above to cross road borders, I've collect so called recovery data for the places where model fall out of the road during my test runs. Startimg from the road borders from the left side and right sides back to center so that the vehicle would learn how to reecover back to the center.
+
+Stragling during couple of days still was not able to
+
+* Trying to add images from left and right camera with corresponding angle adjustment (not working well for me though with any   parameters - so removed this in final model, it looks like to use this technique correctly - more complex algorithm is required)
+
 
 ![alt text][image7]
 ![alt text][image8]
