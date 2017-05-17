@@ -18,7 +18,7 @@ The goal of this project is to:
 [image7]: ./examples/recovery.png "Recovery Image"
 [image8]: ./examples/sample.png "Three images sample"
 [image9]: ./examples/final_dist.png "Model training data distribution"
-[image9]: ./examples/loss.png "Loss"
+[image10]: ./examples/loss.png "Loss"
 
 Technicaly we need to predict steering angle based on the camera images captured from the vehicle. Actualy vehicle has three cameras which appeared to be extremly useful addition as the result.
 
