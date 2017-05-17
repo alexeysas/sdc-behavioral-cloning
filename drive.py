@@ -15,7 +15,6 @@ from io import BytesIO
 from keras.models import load_model
 import h5py
 from keras import __version__ as keras_version
-import cv2
 
 sio = socketio.Server()
 app = Flask(__name__)
@@ -45,62 +44,9 @@ class SimplePIController:
 
 
 controller = SimplePIController(0.1, 0.002)
-set_speed = 20
+set_speed = 15
 controller.set_desired(set_speed)
 
-def canny(img, low_threshold, high_threshold):
-    """Applies the Canny transform"""
-    return cv2.Canny(img, low_threshold, high_threshold)
-
-def region_of_interest(img, vertices):
-    """
-    Applies an image mask.
-    
-    Only keeps the region of the image defined by the polygon
-    formed from `vertices`. The rest of the image is set to black.
-    """
-    #defining a blank mask to start with
-    mask = np.zeros_like(img)   
-    
-    #defining a 3 channel or 1 channel color to fill the mask with depending on the input image
-    if len(img.shape) > 2:
-        channel_count = img.shape[2]  # i.e. 3 or 4 depending on your image
-        ignore_mask_color = (255,) * channel_count
-    else:
-        ignore_mask_color = 255
-        
-    #filling pixels inside the polygon defined by "vertices" with the fill color    
-    cv2.fillPoly(mask, vertices, ignore_mask_color)
-    
-    #returning the image only where mask pixels are nonzero
-    masked_image = cv2.bitwise_and(img, mask)
-    return masked_image
-
-
-def prepare_image(image):
-    """Load image from disk"""    
-    #vertices = np.array([[(10, 140), (70, 70), (250, 70), (310, 140)]])
-    vertices = np.array([[(0, 130), (0, 70), (320, 70), (320, 130)]])
-    image = region_of_interest(image, vertices)
-    return image
-    img_out = cv2.cvtColor(image, cv2.COLOR_BGR2YUV)
-    img_out = cv2.bilateralFilter(image,15,75,75)
-    
-    return img_out
-
-def pre_process(image):
-    return image
-    return prepare_image(image)
-    img_out = cv2.bilateralFilter(image,15,75,75)
-    return img_out
-    img_out = cv2.cvtColor(image, cv2.COLOR_BGR2YUV)
-    return img_out
-    low_threshold = 100
-    high_threshold = 200
-    image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
-    image = canny(image, low_threshold, high_threshold)
-    image = np.expand_dims(image, axis=3) 
-    return image
 
 @sio.on('telemetry')
 def telemetry(sid, data):
@@ -113,11 +59,8 @@ def telemetry(sid, data):
         speed = data["speed"]
         # The current image from the center camera of the car
         imgString = data["image"]
-        image = Image.open(BytesIO(base64.b64decode(imgString)))     
+        image = Image.open(BytesIO(base64.b64decode(imgString)))
         image_array = np.asarray(image)
-
-        image_array = pre_process(image_array)
-
         steering_angle = float(model.predict(image_array[None, :, :, :], batch_size=1))
 
         throttle = controller.update(float(speed))
