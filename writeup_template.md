@@ -95,14 +95,17 @@ So to prevent overfitting and train model to drive more solidly. I've collected 
 
 Realized that model is poorly recovered when it is above to cross road borders, I've collect so called recovery data for the places where model fall out of the road during my test runs. Startimg from the road borders from the left side and right sides back to center so that the vehicle would learn how to reecover back to the center.
 
-Stragling during couple of days still was not able to
-
-* Trying to add images from left and right camera with corresponding angle adjustment (not working well for me though with any   parameters - so removed this in final model, it looks like to use this technique correctly - more complex algorithm is required)
-
+Here is some exaple of images:
 
 ![alt text][image7]
 ![alt text][image8]
 ![alt text][image9]
+
+
+Stragling during couple of days still was not able to
+
+* Trying to add images from left and right camera with corresponding angle adjustment (not working well for me though with any   parameters - so removed this in final model, it looks like to use this technique correctly - more complex algorithm is required)
+
 
 
 #### Final Model Architecture
