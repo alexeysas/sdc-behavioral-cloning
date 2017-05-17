@@ -1,6 +1,6 @@
 # **Behavioral Cloning project**  
 
-## Project Goal
+### Project Goal
 The goal of this project is to:
 * Use the simulator to collect data of good driving behavior
 * Build, a convolution neural network in Keras that predicts steering angles from images
@@ -24,7 +24,7 @@ Images samples captured by vehicle cameras:
 
 ![alt text][image8]
 
-## Solution Design Approach
+### Solution Design Approach
 
 The overall strategy to complete the project was to start from a simple convolutional network (for example similar to LeNeT architecture: 
 
@@ -50,30 +50,32 @@ NVIDIA model:
 
 ![alt text][image3]
 
-The result was terrible. Car hardly able to drive through the first simple turn and left the road...  As this model was proved performer for the self-driving car - I realized that I need to seek issue somewhere else keeping model fixed. 
+The result was terrible. Car was hardly able to drive through the first simple turn and left the road...  As this model was proven performer for the self-driving car we need to address issue from a different angle.. 
 
-#### Data processing and augumentation
+### Data processing and augumentation
 
-So, obviously, I had to collect and pre-process training data in a right way to achieve good results. I've tried different data pre-processing techniques such as:
+So, obviously training data need to be enchanced and collected in a right way to achieve good results.
 
-* Color space convertion
+Different data pre-processing techniques were tried which worked well for previous computer vision projects such as:
+
+* Color space convertion (HSV, YUV)
 * Noise reduction
-* Edge detection - to emphsize road borders.
+* Edge detection (to emphsize road borders)
 * Tried regions of interests using different forms and shapes.
 
-Nothing worked well to improve model behavior. Finally, I've realized that the main issue of the model is that it is biased to the small angles and almost always left the road heading straight forward:
+Nothing worked acceptable well to improve model behavior. 
 
-So I've build the histogram to visualize the collected data:
+Finally, I've realized that the main issue of the model is that it is biased to the small angles and almost always left the road heading straight forward:
+
+So when histogram was build to visualize the collected data - the issue become obvious:
 
 ![alt text][image4]
 
-So, now it is clear that model is biased to to the zero angles.  Also in the NVIDIA paper they mentioned that they had to add a lot of curved turns data as model is biased to the straight roads to make it works correctly.
+It is clear that model is biased to to the zero angles.  Also in the NVIDIA paper they mentioned that they had to add a lot of curved turns data tp deal with this issue and make it works correctly for the turns.
 
-So, I've just tried simple solution: if np.abs(angle) < 0.1 then I am not adding this data to the model. This worked as a charm - car was able to complete half of the road successfully.
+So as a first step, simple solution was applied: if np.abs(angle) < 0.1 then data is not added to tteh training set for to the model. This worked as a charm - car was able to complete almost half of the road successfully.
 
-Additionaly, I tried different augmentation techniques to achieve some improvements in the driving behavior:
-* Added flipped images with reversed angle
-
+Additionaly, as a road is a conter-clockwise lap it is also biased to the left turn - so to reduce this impact image is randomply flipped with 0.5 probability with reversing corresponding angle:
 
 Original image:
 
