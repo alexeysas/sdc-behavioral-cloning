@@ -119,20 +119,20 @@ The final model architecture (main.py lines 159-174) consist of a convolution ne
 | Input         		| 160x320x3 RGB image   							| 
 | Cropping 90x320     	| Outputs: 90x320x3	|
 | Normalization     	| Normilize values to fit [-0.5, 0.5] range,  outputs: 90x280x3	|
-| Convolution 5x5     	| 2x2 stride, valid padding, outputs 43x158x24 	|
+| Convolution 5x5     	| 2x2 stride, valid padding, outputs 43x138x24 	|
 | RELU					|												|
-| Convolution 5x5     	| 2x2 stride, valid padding, outputs 20x77x36 	|
+| Convolution 5x5     	| 2x2 stride, valid padding, outputs 20x67x36 	|
 | RELU					|												|
-| Convolution 5x5     	| 2x2 stride, valid padding, outputs 8x37x48 	|
+| Convolution 5x5     	| 2x2 stride, valid padding, outputs 8x32x48 	|
 | RELU					|												|
-| Convolution 3x3     	| 1x1 stride, valid padding, outputs 8x37x64 	|
+| Convolution 3x3     	| 1x1 stride, valid padding, outputs 6x30x64 	|
 | RELU					|												|
-| Convolution 3x3     	| 1x1 stride, valid padding, outputs 8x37x64 	|
+| Convolution 3x3     	| 1x1 stride, valid padding, outputs 4x28x64 	|
 | RELU					|												|
-| Fully connected		| 2256x100        									|
-| Dropout | keep_prob = 0.8        									|
+| Fully connected		| 7168x100        									|
+| Dropout | keep_prob = 0.5        									|
 | Fully connected		| 100x50        									|
-| Dropout | keep_prob = 0.8        									|
+| Dropout | keep_prob = 0.5        									|
 | Fully connected		| 50x10        									|
 | Fully connected		| 10x1        									|
 
