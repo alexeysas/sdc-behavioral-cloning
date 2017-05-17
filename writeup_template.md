@@ -24,7 +24,7 @@ Images samples captured by vehicle cameras:
 
 ![alt text][image8]
 
-### Solution Design Approach
+### Solution design approach
 
 The overall strategy to complete the project was to start from a simple convolutional network (for example similar to LeNeT architecture: 
 
@@ -52,7 +52,7 @@ NVIDIA model:
 
 The result was terrible. Car was hardly able to drive through the first simple turn and left the road...  As this model was proven performer for the self-driving car we need to address issue from a different angle.. 
 
-### Data processing and augumentation
+## Data processing and augumentation
 
 So, obviously training data need to be enchanced and collected in a right way to achieve good results.
 
@@ -87,37 +87,36 @@ Flipped image:
 
 At the end  vehicle is able to drive autonomously around the track without leaving the road with default speed (9). However, speed increase still caused some issues for driving behaviour. 
 
-#### Data colection and training stategy 
+## Data colection and training stategy 
 
-So the next goal was to make model drive autonomously with resonable high speed on the first track. Also model is clearly over fitting for the first track as car drives out of the road as soon as simulation started for the second track. 
+So the next goal was to make model drive autonomously with reasonable high speed on the first track. Also model is clearly over fitting for the first track as car drives out of the road as soon as simulation started for the second track. 
 
-So to prevent overfitting and train model to drive more solidly. I've collected two laps of data for the second track and additionl data for the first track.  After training on the new data - model was able to complete first turn for the second track.
+So to prevent over fitting and train model to drive more solidly. I've collected two laps of data for the second track and addition data for the first track.  After training on the new data - model was able to complete first turn for the second track.
 
-Realized that model is poorly recovered when it is above to cross road borders, to solve this I've collected so called recovery data for the places where model fall out of the road during my test runs. Startimg from the road borders from the left side and right sides back to center so that the vehicle would learn how to reecover back to the center.
+Realized that model is poorly recovered when it is above to cross road borders, to solve this I've collected so called recovery data for the places where model fall out of the road during my test runs. Starting from the road borders from the left side and right sides back to center so that the vehicle would learn how to recover back to the center.
 
-Here is some exaple of images:
+Here is some example of images:
 
 ![alt text][image7]
 
-Stragling for a couple of days still was not able to achive acceptable results for both trucks. It appeared that then recovery data was collected, additionaly partially "bad driving behavior" was collected as well - we need to drive to the road border to collect recovery data - which is not desirable bahaviour.  As it is almost not possible to distinguish this bad data, I've decieded to go with completly different approach:
+Strangling for a couple of days still was not able to achieve acceptable results for both trucks. It appeared that then recovery data was collected, additional partially "bad driving behavior" was collected as well - we need to drive to the road border to collect recovery data - which is not desirable behavior.  As it is almost not possible to distinguish this bad data, I've decided to go with completely different approach:
 
 * Collect ideal driving data using center of the road for both tracks.
-* Use additional right and left cameras to simulate recovery behaviour  
+* Use additional right and left cameras to simulate recovery behavior 
 
-As images from these cameras as sligtly shifted we need to include corresponding angle adjustement as well. So it was additionl hyperparameter for the model. 
+As images from these cameras as slightly shifted we need to include corresponding angle adjustment as well. So it was introduced as additional hyper parameter for the model to tune. 
 
-This approach does the trick:
+This approach did the trick.
 
+## Final Model Architecture and Training Process
 
-#### Final Model Architecture
-
-The final model architecture (main.py lines 162-179) consisted of a convolution neural network with the following layers and layer sizes 
+The final model architecture (main.py lines 159-174) consist of a convolution neural network with the following layers and layer sizes 
 
 | Layer         		|     Description	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | Input         		| 160x320x3 RGB image   							| 
 | Cropping 90x320     	| Outputs: 90x320x3	|
-| Normalization     	| Normilize values to fit [-0.5, 0.5] range,  outputs: 90x320x3	|
+| Normalization     	| Normilize values to fit [-0.5, 0.5] range,  outputs: 90x280x3	|
 | Convolution 5x5     	| 2x2 stride, valid padding, outputs 43x158x24 	|
 | RELU					|												|
 | Convolution 5x5     	| 2x2 stride, valid padding, outputs 20x77x36 	|
@@ -135,14 +134,17 @@ The final model architecture (main.py lines 162-179) consisted of a convolution 
 | Fully connected		| 50x10        									|
 | Fully connected		| 10x1        									|
 
-Basicly I've used sligtly modified NVIDIA network by adding dropout layers to prevent overfitting. I beleive that reason why NVIDIA dont have drouput layer is becouse they collecteed tons of real data. As we only have two tracks - it can be benefitial for our model.
+Basicly I've used sligtly modified NVIDIA network by adding dropout layers to prevent overfitting. 
 
-#### Training Process
-When data is collected - I've used MSE as accuracy metric and 'Adam' optimizer. As I used Adam optimizer instead of SDG I dont have to tune learning rate. However, I have addtional parameters to wwork with instead:
+I've used MSE as accuracy metric and 'Adam' optimizer. As Adam optimizer is used instead of SDG we dont have to tune learning rate parameter. 
 
-* ignore_threshold - angles less than this value are ignored with probability: remove_probability - also additional parameter to tune.
+However, there are a copuple of addtional parameters were tuned to make model work well:
+
+* ignore_threshold - angles less than this value are ignored for the training data with probability below. Was set to 0.1 for thefinal model
+* remove_probability - remove data from training with small steering angles with this probability. 0.7 value was selected for thr final model.
+* correction angle - angle adjustment for left and right camera models. 0.3 was selected for final model. 
 * number of epoch
-* Either to use left and right camera images or not.
+* batch size = 32
 
 After the collection process, I and up with X data points with following angles distribution:
 
