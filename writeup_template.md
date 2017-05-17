@@ -17,6 +17,7 @@ The goal of this project is to:
 [image6]: ./examples/flipped.png "Flipped Image"
 [image7]: ./examples/recovery.png "Recovery Image"
 [image8]: ./examples/sample.png "Three images sample"
+[image9]: ./examples/final_dist.png "Model training data distribution"
 
 Technicaly we need to predict steering angle based on the camera images captured from the vehicle. Actualy vehicle has three cameras which appeared to be extremly useful addition as the result.
 
@@ -134,21 +135,21 @@ The final model architecture (main.py lines 159-174) consist of a convolution ne
 | Fully connected		| 50x10        									|
 | Fully connected		| 10x1        									|
 
-Basicly I've used sligtly modified NVIDIA network by adding dropout layers to prevent overfitting. 
+Basically I've used slightly modified NVIDIA network by adding dropout layers to prevent over fitting. 
 
-I've used MSE as accuracy metric and 'Adam' optimizer. As Adam optimizer is used instead of SDG we dont have to tune learning rate parameter. 
+I've used MSE as accuracy metric and 'Adam' optimizer. As Adam optimizer is used instead of SGD we don't have to tune learning rate parameter. 
 
-However, there are a copuple of addtional parameters were tuned to make model work well:
+However, there are a couple of additional parameters were tuned to make model work well:
 
-* ignore_threshold - angles less than this value are ignored for the training data with probability below. Was set to 0.1 for thefinal model
+* ignore_threshold - angles less than this value are ignored for the training data with probability below. Was set to 0.1 for the final model
 * remove_probability - remove data from training with small steering angles with this probability. 0.7 value was selected for thr final model.
 * correction angle - angle adjustment for left and right camera models. 0.3 was selected for final model. 
 * number of epoch
 * batch size = 32
 
-After the collection process, I and up with X data points with following angles distribution:
+After data pre-processing and augmentation I've end up with X data points with following angles distribution:
 
-![alt text][image6]
+![alt text][image9]
 
 Finally I randomly shuffled the data set and put 0.1% of the data into a validation set.  Although, I was able to fit all my training data in my PCs memory and used in memory training (main.py lines 224-256) as it a way faster to run. I've provide avility to use generator based approach in case I have a lot of data avalible (main.py lines 198-222), however it works a bit slower than in-memory approah.
 
