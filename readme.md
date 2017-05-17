@@ -154,7 +154,7 @@ Surprisingly, after data pre-processing and augmentation I've end up with 2920 d
 
 It looks like this small amount of data is enough to get pretty good driving behaviour. 
 
-Finally I randomly shuffled the data set and put 0.2% of the data into a validation set.  Although, I was able to fit all my training data in my PCs memory and used in-memory training (main.py lines 224-256) as it a way faster to run. I've provided an ability to use generator based approach in case I have a lot of data available (main.py lines 194-218), however it works a bit slower than in-memory approach.
+Finally I randomly shuffled the data set and put 20% of the data into a validation set.  Although, I was able to fit all my training data in my PCs memory and used in-memory training (main.py lines 224-256) as it a way faster to run. I've provided an ability to use generator based approach in case I have a lot of data available (main.py lines 194-218), however it works a bit slower than in-memory approach.
 
 The ideal number of epochs was 10 as evidenced by the fact that validation loss stopped decreasing. And model is not over-fit as validation and training losese are similar:
 
