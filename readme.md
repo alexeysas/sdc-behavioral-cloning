@@ -168,7 +168,7 @@ https://github.com/alexeysas/sdc-behavioral-cloning/tree/master/examples/Track1.
 
 Additionally, model was almost able to complete a lot more complex track - just stacked in the end on the complicated turn:
 
-https://github.com/alexeysas/sdc-behavioral-cloning/tree/master/examples/Track1.mp4
+https://github.com/alexeysas/sdc-behavioral-cloning/tree/master/examples/Track2.mp4
 
 I believe that it can be fixed by collecting more data and with additional parameters tuning.
 
