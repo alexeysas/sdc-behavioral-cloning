@@ -18,6 +18,7 @@ The goal of this project is to:
 [image7]: ./examples/recovery.png "Recovery Image"
 [image8]: ./examples/sample.png "Three images sample"
 [image9]: ./examples/final_dist.png "Model training data distribution"
+[image9]: ./examples/loss.png "Loss"
 
 Technicaly we need to predict steering angle based on the camera images captured from the vehicle. Actualy vehicle has three cameras which appeared to be extremly useful addition as the result.
 
@@ -144,20 +145,31 @@ However, there are a couple of additional parameters were tuned to make model wo
 * ignore_threshold - angles less than this value are ignored for the training data with probability below. Was set to 0.1 for the final model
 * remove_probability - remove data from training with small steering angles with this probability. 0.7 value was selected for thr final model.
 * correction angle - angle adjustment for left and right camera models. 0.3 was selected for final model. 
-* number of epoch
+* number of epoch = 10
 * batch size = 32
 
-After data pre-processing and augmentation I've end up with X data points with following angles distribution:
+Surprisingly, after data pre-processing and augmentation I've end up with 2920 data points with following angles distribution:
 
 ![alt text][image9]
 
-Finally I randomly shuffled the data set and put 0.1% of the data into a validation set.  Although, I was able to fit all my training data in my PCs memory and used in memory training (main.py lines 224-256) as it a way faster to run. I've provide avility to use generator based approach in case I have a lot of data avalible (main.py lines 198-222), however it works a bit slower than in-memory approah.
+It looks like this small amount of data is enough to get pretty good driving behaviour. 
 
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 15 as evidenced by the fact that validation loss stopped decreasing:
+Finally I randomly shuffled the data set and put 0.2% of the data into a validation set.  Although, I was able to fit all my training data in my PCs memory and used in-memory training (main.py lines 224-256) as it a way faster to run. I've provided an ability to use generator based approach in case I have a lot of data available (main.py lines 194-218), however it works a bit slower than in-memory approach.
 
-![alt text][image6]
+The ideal number of epochs was 10 as evidenced by the fact that validation loss stopped decreasing. And model is not over-fit as validation and training losese are similar:
 
-#### Results
+![alt text][image10]
 
-Res
+## Results
 
+Here is resulting video of the model driving for the first track. Driving is pretty smooth:
+
+https://github.com/alexeysas/sdc-behavioral-cloning/tree/master/examples/Track1.mp4
+
+Additionally, model was almost able to complete a lot more complex track - just stacked in the end on the complicated turn:
+
+https://github.com/alexeysas/sdc-behavioral-cloning/tree/master/examples/Track1.mp4
+
+I believe that it can be fixed by collecting more data and with additional parameters tuning.
+
+As a conclusion of this project I've figured out that data quality, data processing and augmentation are often more important than a model itself to archive good results.
