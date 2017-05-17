@@ -93,19 +93,20 @@ So the next goal was to make model drive autonomously with resonable high speed 
 
 So to prevent overfitting and train model to drive more solidly. I've collected two laps of data for the second track and additionl data for the first track.  After training on the new data - model was able to complete first turn for the second track.
 
-Realized that model is poorly recovered when it is above to cross road borders, I've collect so called recovery data for the places where model fall out of the road during my test runs. Startimg from the road borders from the left side and right sides back to center so that the vehicle would learn how to reecover back to the center.
+Realized that model is poorly recovered when it is above to cross road borders, to solve this I've collected so called recovery data for the places where model fall out of the road during my test runs. Startimg from the road borders from the left side and right sides back to center so that the vehicle would learn how to reecover back to the center.
 
 Here is some exaple of images:
 
 ![alt text][image7]
-![alt text][image8]
-![alt text][image9]
 
+Stragling for a couple of days still was not able to achive acceptable results for both trucks. It appeared that then recovery data was collected, additionaly partially "bad driving behavior" was collected as well - we need to drive to the road border to collect recovery data - which is not desirable bahaviour.  As it is almost not possible to distinguish this bad data, I've decieded to go with completly different approach:
 
-Stragling during couple of days still was not able to
+* Collect ideal driving data using center of the road for both tracks.
+* Use additional right and left cameras to simulate recovery behaviour  
 
-* Trying to add images from left and right camera with corresponding angle adjustment (not working well for me though with any   parameters - so removed this in final model, it looks like to use this technique correctly - more complex algorithm is required)
+As images from these cameras as sligtly shifted we need to include corresponding angle adjustement as well. So it was additionl hyperparameter for the model. 
 
+This approach does the trick:
 
 
 #### Final Model Architecture
