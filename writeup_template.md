@@ -1,4 +1,4 @@
-# **Behavioral Cloning** 
+# **Behavioral Cloning**  
 
 ## **Behavioral Cloning Project**
 
@@ -16,7 +16,7 @@ The goals / steps of this project are the following:
 [image4]: ./examples/hist1.png "Angles histogram"
 [image5]: ./examples/original.png "Original Image"
 [image6]: ./examples/flipped.png "Flipped Image"
-[image7]: ./examples/placeholder_small.png "Flipped Image"
+[image7]: ./examples/recovery.png "Recovery Image"
 
 ## Model Architecture and Training Strategy
 
@@ -83,15 +83,19 @@ At the end  vehicle is able to drive autonomously around the track without leavi
 
 The next goal was to make model drive autonomously on the second track. Model is clearly over-fitting for the first truck as car drives out of the road as soon as simulation started for the second track. 
 
-So to prevent overfitting and train model to drive on the second track. I've collected two laps of data for the second track. Model 
+So to prevent overfitting and train model to drive on the second track. I've collected two laps of data for the second track. After training on the new data - model was able to complete first turn for the second track.
 
-Additionaly I've collected additional recovery data for the places where model fall out of the road  
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
+Additionaly I've started collecting recovery data for the places where model fall out of the road during my test runs  
+I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn how to reecover back to the center: 
+
+![alt text][image7]
+![alt text][image8]
+![alt text][image9]
 
 
 #### Final Model Architecture
 
-The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes 
+The final model architecture (main.py lines 162-179) consisted of a convolution neural network with the following layers and layer sizes 
 
 | Layer         		|     Description	        					| 
 |:---------------------:|:---------------------------------------------:| 
@@ -115,46 +119,26 @@ The final model architecture (model.py lines 18-24) consisted of a convolution n
 | Fully connected		| 50x10        									|
 | Fully connected		| 10x1        									|
 
-Basicly I've used sligtly modified NVIDIA network by adding dropout layers to prevent overfitting.
+Basicly I've used sligtly modified NVIDIA network by adding dropout layers to prevent overfitting. I beleive that reason why NVIDIA dont have drouput layer is becouse they collecteed tons of real data. As we only have two tracks - it can be benefitial for our model.
 
 #### Training Process
-When data is collected - I've used MSE as accuracy metric and 'Adam' optimizer - so I dont have to tune learning rate. However, I have addtional parameters to tune:
+When data is collected - I've used MSE as accuracy metric and 'Adam' optimizer. As I used Adam optimizer instead of SDG I dont have to tune learning rate. However, I have addtional parameters to wwork with instead:
 
 * ignore_threshold - angles less than this value are ignored with probability: remove_probability - also additional parameter to tune.
 * number of epoch
-* Either to use left and right camera or not.
+* Either to use left and right camera images or not.
 
-
-
-
-
-
-####3. Creation of the Training Set & Training Process
-
-To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
-
-![alt text][image2]
-
-Also I've tryed to 
-
-
-
-![alt text][image3]
-![alt text][image4]
-![alt text][image5]
-
-Also I've recorded two laps of data using second track driving to prevent overfeating for the first track (it idealy drives over first track after training on three laps data collected from first track only, but it is clearly overfitting as it is not able to drive a single turn for the second truck) and in attempt to eveluate model .
-
-To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
+After the collection process, I and up with X data points with following angles distribution:
 
 ![alt text][image6]
-![alt text][image7]
 
-Etc ....
+Finally I randomly shuffled the data set and put 0.1% of the data into a validation set.  Although, I was able to fit all my training data in my PCs memory and used in memory training (main.py lines 224-256) as it a way faster to run. I've provide avility to use generator based approach in case I have a lot of data avalible (main.py lines 198-222), however it works a bit slower than in-memory approah.
 
-After the collection process, I had X number of data points. I then preprocessed this data by ...
+I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 15 as evidenced by the fact that validation loss stopped decreasing:
 
+![alt text][image6]
 
-I finally randomly shuffled the data set and put Y% of the data into a validation set. 
+#### Results
 
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
+Res
+
